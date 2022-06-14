@@ -12,24 +12,38 @@ int visited[MAX];
 void BFS() {
     vector<int> teamA, teamB;
     queue<int> Q;
-    Q.push(1);
-    visited[1] = true;
 
-    while(!Q.empty()) {
-        int now = Q.front();
-        Q.pop();
+    for(int i = 1; i <= N; i++) {
+        if(visited[i] != 0) continue;
+        visited[i] = 1;
+        Q.push(i);
 
-        for(int i = 1; i <= N; i++) {
-            if(friendMap[now][i] == false && !visited[i]) {
-                visited[i] = visited
+        while (!Q.empty()) {
+            int now = Q.front();
+            Q.pop();
+
+            for (int j = 1; j <= N; j++) {
+                if (friendMap[now][j] == false && !visited[j]) {
+                    visited[j] = visited[now] * -1;
+                    Q.push(j);
+                }
             }
         }
     }
-    sort(teamA.begin(), teamA.begin());
+    for(int i = 1; i <= N; i++) {
+        if(visited[i] == 1) teamA.push_back(i);
+        else if(visited[i] == -1) teamB.push_back(i);
+    }
     cout << teamA.size() << "\n";
     for (const auto &a: teamA) {
         cout << a << " ";
     }
+    cout << "\n";
+    cout << teamB.size() << "\n";
+    for (const auto &b: teamB) {
+        cout << b << " ";
+    }
+    cout << "\n";
 }
 
 int main() {
